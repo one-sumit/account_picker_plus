@@ -1,5 +1,6 @@
 package com.account.picker.account_picker_plus
 
+import android.app.Activity
 import android.accounts.Account
 import android.accounts.AccountManager
 import android.content.Context
@@ -98,13 +99,11 @@ class AccountPickerPlusPlugin : FlutterPlugin, MethodCallHandler,
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
-        if (data != null) {
-            if (requestCode == 1010101) {
-                val phoneNumber = Identity.getSignInClient(activity)
-                    .getPhoneNumberFromIntent(data)
-                Log.d("phone ", phoneNumber)
-                response.success(phoneNumber)
-            }
+        if (requestCode == 1010101 && resultCode == Activity.RESULT_OK && data != null) {
+            val phoneNumber = Identity.getSignInClient(activity)
+                .getPhoneNumberFromIntent(data)
+            Log.d("phone ", phoneNumber)
+            response.success(phoneNumber)
         }
         return true
     }
